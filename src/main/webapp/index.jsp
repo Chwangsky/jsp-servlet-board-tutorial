@@ -11,11 +11,11 @@
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
 
-
 <%
 
     ConnectionTest t = new ConnectionTest();
-    out.println(t.getConnection());
+    System.out.println(t.getConnection()); // verifiy this is not null
+    System.out.println("test@!");
 
 %>
 
