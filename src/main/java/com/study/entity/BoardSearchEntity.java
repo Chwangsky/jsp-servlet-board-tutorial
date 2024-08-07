@@ -1,6 +1,6 @@
 package com.study.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +13,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class BoardSearchEntity {
+    private int totalCount;
     private String category;
     private int fileCount;
     private String title;
     private String writer;
     private int views;
-    private Date regDate;
-    private Date updateDate;
+    private LocalDateTime regDate;
+    private LocalDateTime updateDate;
 }

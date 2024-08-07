@@ -32,6 +32,7 @@ dependencies {
 
     // mybatis 
     implementation 'org.mybatis:mybatis:3.5.16'
+    implementation 'org.mybatis:mybatis-typehandlers-jsr310:1.0.2'
 
     // junit
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"

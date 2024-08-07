@@ -1,8 +1,8 @@
 package com.study.util;
 
+import java.io.IOException;
 import java.io.Reader;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -11,15 +11,18 @@ public class MyBatisUtil {
 
     static {
         try {
-            Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            reader.close();
-        } catch (Exception e) {
+            String resource = "mybatis-config.xml";
+            Reader reader = Resources.getResourceAsReader(resource);
+            if (sqlSessionFactory == null) {
+                sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public static SqlSession getSession() {
-        return sqlSessionFactory.openSession();
+    public static SqlSessionFactory getSqlSessionFactory() {
+        return sqlSessionFactory;
     }
 }

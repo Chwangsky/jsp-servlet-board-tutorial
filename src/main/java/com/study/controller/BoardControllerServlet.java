@@ -1,62 +1,73 @@
 package com.study.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import com.study.service.HttpService;
-import com.study.service.ListService;
-import com.study.service.WriteService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/board/free/*")
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import com.study.command.DeleteCommand;
+import com.study.command.HttpCommand;
+import com.study.command.ListCommand;
+import com.study.command.ReadCommand;
+import com.study.command.UpdateCommand;
+import com.study.command.WriteCommand;
+
+@WebServlet("/boards/free/*")
 public class BoardControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    Map<String, HttpService> commandMap = new HashMap<>();
+
+    private Map<String, HttpCommand> commandMap = new HashMap<>();
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        commandMap.put("GET:list", new ListService());
-        commandMap.put("GET:read", new WriteService());
-        commandMap.put("GET:insert", new WriteService());
-        commandMap.put("POST:insert", new WriteService());
-        commandMap.put("GET:update", new WriteService());
-        commandMap.put("PUT:update", new WriteService());
-        commandMap.put("DELETE:delete", new WriteService());
+        commandMap.put("GET:list", new ListCommand());
+        commandMap.put("GET:read", new ReadCommand());
+        commandMap.put("GET:insert", new WriteCommand());
+        commandMap.put("POST:insert", new WriteCommand());
+        commandMap.put("GET:update", new UpdateCommand());
+        commandMap.put("PUT:update", new UpdateCommand());
+        commandMap.put("DELETE:delete", new DeleteCommand());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("service method called");
-        HttpService targetService = findTargetService(request);
-        // String view = targetService.doService(request, response);
+        try {
+            HttpCommand targetService = findTargetService(request);
+            if (targetService == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
 
-        // TODO: view 문자열 분석해서 dispatch 혹은 redirect
+            String view = targetService.doService(request, response);
+            handleView(request, response, view);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
 
-    private HttpService findTargetService(HttpServletRequest request) {
-        String requestUri = request.getRequestURI();
-        String queryString = request.getQueryString();
-        System.out.println("Request URI: " + requestUri);
-        System.out.println("Query String: " + queryString);
-        System.out.println("version:0.0.0.3");
-        return null;
+    private HttpCommand findTargetService(HttpServletRequest request) {
+        String method = request.getMethod();
+        String path = request.getPathInfo();
+        System.out.println(method); // FIXME
+        System.out.println(path); // FIXME
+        String key = method + ":" + path.substring(1);
+        return commandMap.get(key);
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    private void handleView(HttpServletRequest request, HttpServletResponse response, String view)
             throws ServletException, IOException {
-        service(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        service(request, response);
+        if (view.startsWith("redirect:")) {
+            response.sendRedirect(view.substring(9));
+        } else if (view.startsWith("dispatch:")) {
+            request.getRequestDispatcher("/WEB-INF/views/board/free/" + view.substring(9))
+                    .forward(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid view type");
+        }
     }
 }

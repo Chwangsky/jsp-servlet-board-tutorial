@@ -22,7 +22,6 @@ public class BoardSearchServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("version 00005");
         String resource = "mybatis-config.xml";
         try (Reader reader = Resources.getResourceAsReader(resource);
                 BufferedReader bufferedReader = new BufferedReader(reader)) {
@@ -45,7 +44,9 @@ public class BoardSearchServlet extends HttpServlet {
         String regDateStart = request.getParameter("regDateStart");
         String regDateEnd = request.getParameter("regDateEnd");
         String categoryName = request.getParameter("categoryName");
-        String titleAndContentKeyword = request.getParameter("titleAndContentKeyword");
+        String titleAndContentKeyword = request.getParameter("keyword");
+        System.out.printf("변수 테스트: %s %s %s %s\n", regDateStart, regDateEnd, categoryName,
+                titleAndContentKeyword);
 
         int limit = 5;
         int offset = 0;
@@ -54,6 +55,10 @@ public class BoardSearchServlet extends HttpServlet {
             BoardSearchMapper mapper = session.getMapper(BoardSearchMapper.class);
             List<BoardSearchEntity> boards = mapper.boardSearch(regDateStart, regDateEnd,
                     categoryName, titleAndContentKeyword, limit, offset);
+
+            // FOR DEBUGGING
+            System.out.println(boards.get(0).getRegDate());
+
 
             request.setAttribute("boards", boards);
             request.getRequestDispatcher("/WEB-INF/views/boardSearchResult.jsp").forward(request,

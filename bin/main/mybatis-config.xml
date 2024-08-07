@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+    <!-- 환경 설정 -->
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -16,6 +17,7 @@
         </environment>
     </environments>
 
+    <!-- 매퍼 파일 등록 -->
     <mappers>
         <mapper resource="com/study/mapper/BoardSearchMapper.xml"/>
     </mappers>
