@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.study.mapper.BoardSearchMapper">
+
+  <select id="boardSearch" resultType="com.study.dto.BoardSearchDto">
+    SELECT
+        (
+            SELECT c.name
+            FROM category c
+            where b.category_id = c.category_id
+        ) as category,
+        (
+            SELECT COUNT(*)
+            FROM files f
+            WHERE f.board_id = b.board_id
+        ) AS file_count,
+        b.title AS title,
+        b.writer AS writer,
+        b.views AS views,
+        b.reg_date AS reg_date,
+        b.update_date AS update_date
+    FROM
+        board b
+    WHERE
+        1=1
+        <if test="regDateStart != null">
+            AND b.reg_date <![CDATA[ > ]]> #{regDateStart}
+        </if>
+        <if test="regDateEnd != null">
+            AND b.reg_date <![CDATA[ < ]]> #{regDateEnd}
+        </if>
+        <if test="categoryName != null">
+            AND b.category_id = (
+                SELECT c.category_id
+                FROM category c
+                WHERE c.name = #{categoryName}
+            )
+        </if>   
+        <if test="titleAndContentKeyword != null and titleAndContentKeyword != ''">
+            AND (b.title LIKE CONCAT('%', #{titleAndContentKeyword}, '%')
+                OR
+                b.content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
+        </if>
+    LIMIT #{limit}
+    OFFSET #{offset}
+  </select>
+
+</mapper>

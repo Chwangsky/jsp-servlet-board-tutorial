@@ -12,6 +12,7 @@ repositories {
 
 ext {
     junitVersion = '5.10.0'
+    lombokVersion = '1.18.26'
 }
 
 sourceCompatibility = '17'
@@ -24,12 +25,32 @@ tasks.withType(JavaCompile) {
 dependencies {
     compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
     implementation 'mysql:mysql-connector-java:8.0.28'
 
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+
+    // mybatis 
+    implementation 'org.mybatis:mybatis:3.5.16'
+
+    // junit
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+
+    //lombok
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
 }
 
 test {
@@ -43,4 +64,8 @@ war {
         into('/')
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
