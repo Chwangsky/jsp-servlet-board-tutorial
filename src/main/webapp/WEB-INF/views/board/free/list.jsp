@@ -23,8 +23,9 @@
     <input type="submit" value="Search">
 </form>
 
-<h2>Board Search Results 폼데이터 추가 ver</h2>
-<table>
+<h2>게시글 검색</h2>
+<p>Total Count: ${boardListDto.totalCount}</p>
+<table border="1">
     <tr>
         <th>Category</th>
         <th>Title</th>
@@ -34,7 +35,7 @@
         <th>Reg Date</th>
         <th>Update Date</th>
     </tr>
-    <c:forEach var="board" items="${boards}">
+    <c:forEach var="board" items="${boardListDto.boardList}">
         <tr>
             <td>${board.category}</td>
             <td>${board.title}</td>
@@ -46,5 +47,26 @@
         </tr>
     </c:forEach>
 </table>
+
+<div class="pagination">
+    <c:if test="${boardListDto.currentPage > 1}">
+        <a href="?page=${boardListDto.currentPage - 1}">Previous</a>
+    </c:if>
+
+    <c:forEach var="i" begin="${boardListDto.sectionPageBegin}" end="${boardListDto.sectionPageEnd}">
+        <c:choose>
+            <c:when test="${i == boardListDto.currentPage}">
+                <span>${i}</span>
+            </c:when>
+            <c:otherwise>
+                <a href="?page=${i}">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <c:if test="${boardListDto.currentPage < boardListDto.totalPage}">
+        <a href="?page=${boardListDto.currentPage + 1}">Next</a>
+    </c:if>
+</div>
 </body>
 </html>

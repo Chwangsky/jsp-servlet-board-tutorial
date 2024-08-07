@@ -1,6 +1,7 @@
 package com.study.dto;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import com.study.dto.resultset.BoardSearchResultSet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardListDto {
-    private String category;
-    private int fileCount;
-    private String title;
-    private String writer;
-    private int views;
-    private LocalDateTime regDate;
-    private LocalDateTime updateDate;
+    private int totalCount;
+
+    private List<BoardSearchResultSet> boardList;
 
     private int currentPage;
     private int totalPage;
+    private int SectionPageBegin;
+    private int SectionPageEnd;
 
 
 }

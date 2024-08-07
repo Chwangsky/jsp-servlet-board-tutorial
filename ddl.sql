@@ -238,3 +238,21 @@ SELECT
     
   )
 FROM board b;
+
+
+
+-- 페이지네이션 관찰을 위한 추가 쿼리문 -- 이거 5번 추가하자
+
+insert into 
+  board (title, writer, views, reg_date, update_date, category_id, content, password)
+values
+  (
+    'Javascript 테스트', 
+    '0woo', 
+    123, 
+    '2022-04-09 16:32:00', 
+    '2022-04-09 16:32:33', 
+    2, 
+    '자바스크립트 테스트 내용입니다.', 
+    '1234'
+  );

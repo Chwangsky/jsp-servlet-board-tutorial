@@ -1,19 +1,19 @@
-package com.study.entity;
+package com.study.dto.resultset;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class BoardSearchEntity {
+public class BoardSearchResultSet {
     private String category;
     private int fileCount;
     private String title;
@@ -23,10 +23,13 @@ public class BoardSearchEntity {
     private LocalDateTime updateDate;
 
     public String getRegDateAsString() {
-        return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return regDate != null ? regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                : "";
     }
 
     public String getUpdateDateAsString() {
-        return updateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return updateDate != null
+                ? updateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                : "";
     }
 }
