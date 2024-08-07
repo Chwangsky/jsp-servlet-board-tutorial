@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -25,8 +24,8 @@
             <td>${board.fileCount}</td>
             <td>${board.writer}</td>
             <td>${board.views}</td>
-            <td><fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-            <td><fmt:formatDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+            <td>${board.regDateAsString}</td>
+            <td>${board.updateDateAsString}</td>
         </tr>
     </c:forEach>
 </table>

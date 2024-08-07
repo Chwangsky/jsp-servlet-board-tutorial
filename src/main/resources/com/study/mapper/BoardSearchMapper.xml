@@ -26,7 +26,7 @@
                     OR
                     content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
             </if>
-        ) AS total_count,
+        ) AS totalCount,
         (
             SELECT c.name
             FROM category c
@@ -36,12 +36,12 @@
             SELECT COUNT(*)
             FROM files f
             WHERE f.board_id = b.board_id
-        ) AS file_count,
+        ) AS fileCount,
         b.title AS title,
         b.writer AS writer,
         b.views AS views,
-        b.reg_date AS reg_date,
-        b.update_date AS update_date
+        b.reg_date AS regDate,
+        b.update_date AS updateDate
     FROM
         board b
     WHERE
@@ -64,8 +64,6 @@
                 OR
                 b.content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
         </if>
-    GROUP BY
-        b.board_id, b.category_id, b.title, b.writer, b.views, b.reg_date, b.update_date
     LIMIT #{limit}
     OFFSET #{offset}
   </select>

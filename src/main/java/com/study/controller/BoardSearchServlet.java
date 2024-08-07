@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.time.LocalDateTime;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -56,8 +58,16 @@ public class BoardSearchServlet extends HttpServlet {
             List<BoardSearchEntity> boards = mapper.boardSearch(regDateStart, regDateEnd,
                     categoryName, titleAndContentKeyword, limit, offset);
 
+            List<LocalDateTime> regDates = mapper.getAllRegDates();
+
             // FOR DEBUGGING
-            System.out.println(boards.get(0).getRegDate());
+            for (LocalDateTime regDate : regDates) {
+                System.out.println("Reg Date: " + regDate);
+            }
+
+            // FOR DEBUGGING
+            // System.out.println("0woo"); // FIXME
+            // System.out.println(boards.get(0).getRegDate()); // null
 
 
             request.setAttribute("boards", boards);

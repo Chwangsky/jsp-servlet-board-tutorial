@@ -21,4 +21,6 @@ public class BoardListDto {
 
     private int currentPage;
     private int totalPage;
+
+
 }

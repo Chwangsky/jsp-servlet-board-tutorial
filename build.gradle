@@ -41,6 +41,9 @@ dependencies {
     //lombok
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    // for VSCODE import suggestion
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 sourceSets {

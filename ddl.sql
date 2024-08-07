@@ -1,4 +1,4 @@
--- Active: 1722838177121@@127.0.0.1@3308@ebrainsoft_study
+-- Active: 1723033748156@@127.0.0.1@3308@ebrainsoft_study
 
 use ebrainsoft_study;
 
@@ -62,11 +62,6 @@ ALTER TABLE board
     REFERENCES category (category_id)
     ON DELETE SET DEFAULT;
 
-
-
-
--- Active: 1722838177121@@127.0.0.1@3308@ebrainsoft_study
-use ebrainsoft_study;
 
 insert into category(name) VALUES('JAVA');
 insert into category(name) VALUES('Javascript');
@@ -166,6 +161,54 @@ WHERE
 group by b.board_id
 LIMIT 10 -- 변수
 OFFSET 0; -- 변수
+
+-- COUNT(*) 까지 포함한 최종버전
+SELECT
+    (SELECT COUNT(*) FROM board WHERE 1=1 
+        AND reg_date >= '2022-01-01'
+        AND reg_date <= '2023-12-31'
+        AND category_id = (
+            SELECT c.category_id
+            FROM category c
+            WHERE c.name = 'Javascript'
+        )
+        AND (title LIKE '%Java%'
+            OR content LIKE '%Java%')
+    ) AS total_count,
+    (
+        SELECT c.name
+        FROM category c
+        WHERE b.category_id = c.category_id
+    ) AS category,
+    (
+        SELECT COUNT(*)
+        FROM files f
+        WHERE f.board_id = b.board_id
+    ) AS file_count,
+    b.title AS title,
+    b.writer AS writer,
+    b.views AS views,
+    b.reg_date AS reg_date,
+    b.update_date AS update_date
+FROM
+    board b
+WHERE
+    1=1
+    AND b.reg_date >= '2022-01-01'
+    AND b.reg_date <= '2023-12-31'
+    AND b.category_id = (
+        SELECT c.category_id
+        FROM category c
+        WHERE c.name = 'Javascript'
+    )
+    AND (b.title LIKE '%Java%'
+        OR b.content LIKE '%Java%')
+GROUP BY
+    b.board_id, b.category_id, b.title, b.writer, b.views, b.reg_date, b.update_date
+LIMIT 10
+OFFSET 0;
+
+
 
 -- 카테고리, 등록일-시작, 등록일-끝이 모두 없을 때
 

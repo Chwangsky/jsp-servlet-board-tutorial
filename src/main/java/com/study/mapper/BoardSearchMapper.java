@@ -2,7 +2,9 @@ package com.study.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import com.study.entity.BoardSearchEntity;
+import java.time.LocalDateTime;
 
 public interface BoardSearchMapper {
     List<BoardSearchEntity> boardSearch(
@@ -12,4 +14,8 @@ public interface BoardSearchMapper {
 
             @Param("titleAndContentKeyword") String titleAndContentKeyword,
             @Param("limit") int limit, @Param("offset") int offset);
+
+    // this is just for TEST -- and it works
+    @Select("SELECT reg_date FROM board")
+    List<LocalDateTime> getAllRegDates();
 }
