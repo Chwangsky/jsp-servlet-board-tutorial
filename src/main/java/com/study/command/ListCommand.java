@@ -1,18 +1,17 @@
 package com.study.command;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
+import java.util.stream.Collectors;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import com.study.entity.BoardSearchEntity;
-import com.study.mapper.BoardSearchMapper;
-import com.study.util.MyBatisUtil;
 import com.study.dto.BoardListDto;
 import com.study.dto.PaginationDto;
 import com.study.dto.resultset.BoardSearchResultSet;
-
+import com.study.entity.BoardSearchEntity;
+import com.study.mapper.BoardSearchMapper;
+import com.study.util.MyBatisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -36,9 +35,9 @@ public class ListCommand implements HttpCommand {
         String keyword = request.getParameter("keyword");
         String currentPageString = request.getParameter("page");
 
-        if (regDateStart != null && !isStringDateType(regDateStart))
+        if (regDateStart != null && !isValidDate(regDateStart))
             regDateStart = null;
-        if (regDateEnd != null && !isStringDateType(regDateEnd))
+        if (regDateEnd != null && !isValidDate(regDateEnd))
             regDateEnd = null;
         if (categoryName != null && categoryName.isEmpty())
             categoryName = null;
@@ -64,7 +63,7 @@ public class ListCommand implements HttpCommand {
                     .map(board -> new BoardSearchResultSet(board.getBoardId(), board.getCategory(),
                             board.getFileCount(), board.getTitle(), board.getWriter(),
                             board.getViews(), board.getRegDate(), board.getUpdateDate()))
-                    .toList();
+                    .collect(Collectors.toList());
 
             PaginationDto paginationDto = PaginationDto.createPaginationDto(totalCount,
                     ITEMS_PER_PAGE, PAGE_PER_SECTION, currentPage);
@@ -73,6 +72,9 @@ public class ListCommand implements HttpCommand {
                     new BoardListDto(totalCount, boardListResultSet, paginationDto);
 
             request.setAttribute("boardListDto", boardListDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("ListCommand 처리 도중 예외가 발생했습니다.", e);
         }
 
         return "dispatch:list.jsp";
@@ -85,11 +87,13 @@ public class ListCommand implements HttpCommand {
      * @return 입력 스트링이 날짜형식 해당 여부
      *
      */
-    private boolean isStringDateType(String input) {
-        String regex = "^\\d{4}-\\d{2}-\\d{2}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
+    private boolean isValidDate(String date) {
+        try {
+            LocalDate.parse(date);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     /**

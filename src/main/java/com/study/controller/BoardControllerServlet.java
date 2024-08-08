@@ -15,6 +15,7 @@ import com.study.command.ListCommand;
 import com.study.command.ReadCommand;
 import com.study.command.UpdateCommand;
 import com.study.command.WriteCommand;
+import com.study.exception.PathNotFoundException;
 
 @WebServlet("/boards/free/*")
 public class BoardControllerServlet extends HttpServlet {
@@ -25,12 +26,19 @@ public class BoardControllerServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         commandMap.put("GET:list", new ListCommand());
-        commandMap.put("GET:read", new ReadCommand());
-        commandMap.put("GET:insert", new WriteCommand());
-        commandMap.put("POST:insert", new WriteCommand());
-        commandMap.put("GET:update", new UpdateCommand());
-        commandMap.put("PUT:update", new UpdateCommand());
-        commandMap.put("DELETE:delete", new DeleteCommand());
+        commandMap.put("GET:views", new ReadCommand());
+
+        // TODO: GET:views 추가
+        // TODO: GET:write 추가
+        // TODO: POST:write 추가
+        // TODO: GET:modify 추가
+        // TODO: POST:modify 추가
+
+        // commandMap.put("GET:insert", new WriteCommand());
+        // commandMap.put("POST:insert", new WriteCommand());
+        // commandMap.put("GET:update", new UpdateCommand());
+        // commandMap.put("PUT:update", new UpdateCommand());
+        // commandMap.put("DELETE:delete", new DeleteCommand());
     }
 
     @Override
@@ -50,12 +58,19 @@ public class BoardControllerServlet extends HttpServlet {
         }
     }
 
-    private HttpCommand findTargetService(HttpServletRequest request) {
+    private HttpCommand findTargetService(HttpServletRequest request) throws PathNotFoundException {
         String method = request.getMethod();
         String path = request.getPathInfo();
-        System.out.println(method); // FIXME
-        System.out.println(path); // FIXME
-        String key = method + ":" + path.substring(1);
+
+        if (!path.contains("/"))
+            throw new PathNotFoundException("경로가 아닙니다.");
+        String controllerString = path.split("/")[1];
+
+        System.out.println("method: " + method); // FIXME
+        System.out.println("controllerString: " + controllerString); // FIXME
+
+        String key = method + ":" + controllerString;
+        System.out.println("key : " + key);
         return commandMap.get(key);
     }
 

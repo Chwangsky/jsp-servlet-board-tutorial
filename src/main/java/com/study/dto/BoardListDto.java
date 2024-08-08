@@ -12,9 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardListDto {
+
     private int totalCount;
-
     private List<BoardSearchResultSet> boardList;
-
     private PaginationDto paginationDto;
+
 }

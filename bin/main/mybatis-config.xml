@@ -20,5 +20,6 @@
     <!-- 매퍼 파일 등록 -->
     <mappers>
         <mapper resource="com/study/mapper/BoardSearchMapper.xml"/>
+        <mapper class="com.study.mapper.BoardReadMapper"/>
     </mappers>
 </configuration>
