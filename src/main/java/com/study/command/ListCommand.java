@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import com.study.dto.BoardListDto;
 import com.study.dto.PaginationDto;
-import com.study.dto.resultset.BoardSearchResultSet;
+import com.study.dto.items.BoardSearchItems;
 import com.study.entity.BoardSearchEntity;
 import com.study.mapper.BoardSearchMapper;
 import com.study.util.MyBatisUtil;
@@ -59,8 +59,8 @@ public class ListCommand implements HttpCommand {
             int totalCount =
                     mapper.boardSearchCount(regDateStart, regDateEnd, categoryName, keyword);
 
-            List<BoardSearchResultSet> boardListResultSet = boards.stream()
-                    .map(board -> new BoardSearchResultSet(board.getBoardId(), board.getCategory(),
+            List<BoardSearchItems> boardListResultSet = boards.stream()
+                    .map(board -> new BoardSearchItems(board.getBoardId(), board.getCategory(),
                             board.getFileCount(), board.getTitle(), board.getWriter(),
                             board.getViews(), board.getRegDate(), board.getUpdateDate()))
                     .collect(Collectors.toList());

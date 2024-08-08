@@ -1,4 +1,4 @@
-package com.study.dto.resultset;
+package com.study.dto.items;
 
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardSearchResultSet {
+public class BoardSearchItems {
     private int boardId;
     private String category;
     private int fileCount;

@@ -4,6 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+
+    <settings>
+        <!-- Mybatis 로그 설정 -->
+        <setting name="logImpl" value="SLF4J"/>
+    </settings>
+
     <!-- 환경 설정 -->
     <environments default="development">
         <environment id="development">

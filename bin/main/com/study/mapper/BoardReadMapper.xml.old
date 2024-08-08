@@ -4,14 +4,3 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.study.mapper.BoardReadMapper"> -->
-
-<!-- board_id가 주어지면 board의 상세정보를 가져오는 쿼리 -->
-
-
-<!-- board_id가 주어지면 comment의 정보를 가져오는 쿼리 -->
-
-
-<!-- board_id가 주어지면 files 정보를 가져오는 쿼리 -->
-
-
-<!-- board_id가 주어지면 comment를 추가하는 쿼리--> 
