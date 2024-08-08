@@ -49,13 +49,13 @@
 </table>
 
 <div class="pagination">
-    <c:if test="${boardListDto.currentPage > 10}">
-        <a href="?page=${boardListDto.currentPage - 10}">&lt</a>
+    <c:if test="${boardListDto.paginationDto.currentSection != 1}">
+        <a href="?page=${boardListDto.paginationDto.currentSectionPageBegin - 1}">&lt</a>
     </c:if>
 
-    <c:forEach var="i" begin="${boardListDto.sectionPageBegin}" end="${boardListDto.sectionPageEnd}">
+    <c:forEach var="i" begin="${boardListDto.paginationDto.currentSectionPageBegin}" end="${boardListDto.paginationDto.currentSectionPageEnd}">
         <c:choose>
-            <c:when test="${i == boardListDto.currentPage}">
+            <c:when test="${i == boardListDto.paginationDto.currentPage}">
                 <span>${i}</span>
             </c:when>
             <c:otherwise>
@@ -64,11 +64,11 @@
         </c:choose>
     </c:forEach>
 
-    <c:if test="${boardListDto.currentPage} < ${boardListDto.lastSectionPage}">
-        <a href="?page=${boardListDto.sectionPageBegin + 10}">&gt</a>
+    <c:if test="${boardListDto.paginationDto.currentSection != boardListDto.paginationDto.totalSection}">
+        <a href="?page=${boardListDto.paginationDto.currentSectionPageEnd + 1}">&gt</a>
     </c:if>
     ...
-    <a href="?page=${boardListDto.totalPage}">${totalPage}</a>
+    <a href="?page=${boardListDto.paginationDto.totalPage}">${totalPage}</a>
 </div>
 </body>
 </html>

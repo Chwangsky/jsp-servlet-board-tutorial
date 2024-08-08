@@ -23,6 +23,7 @@ public class PaginationDtoTest {
         assertEquals(pagesPerSection, pagination.getPagesPerSection());
         assertEquals(currentPage, pagination.getCurrentPage());
         assertEquals(10, pagination.getTotalPage());
+        assertEquals(2, pagination.getTotalSection());
         assertEquals(1, pagination.getCurrentSectionPageBegin());
         assertEquals(5, pagination.getCurrentSectionPageEnd());
         assertEquals(1, pagination.getCurrentSection());
@@ -46,6 +47,7 @@ public class PaginationDtoTest {
         assertEquals(pagesPerSection, pagination.getPagesPerSection());
         assertEquals(currentPage, pagination.getCurrentPage());
         assertEquals(13, pagination.getTotalPage());
+        assertEquals(3, pagination.getTotalSection());
         assertEquals(6, pagination.getCurrentSectionPageBegin());
         assertEquals(10, pagination.getCurrentSectionPageEnd());
         assertEquals(2, pagination.getCurrentSection());
@@ -69,6 +71,7 @@ public class PaginationDtoTest {
         assertEquals(pagesPerSection, pagination.getPagesPerSection());
         assertEquals(currentPage, pagination.getCurrentPage());
         assertEquals(1, pagination.getTotalPage());
+        assertEquals(1, pagination.getTotalSection());
         assertEquals(1, pagination.getCurrentSectionPageBegin());
         assertEquals(1, pagination.getCurrentSectionPageEnd());
         assertEquals(1, pagination.getCurrentSection());

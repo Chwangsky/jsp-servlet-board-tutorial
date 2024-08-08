@@ -60,15 +60,6 @@ public class BoardSearchServlet extends HttpServlet {
 
             List<LocalDateTime> regDates = mapper.getAllRegDates();
 
-            // FOR DEBUGGING
-            for (LocalDateTime regDate : regDates) {
-                System.out.println("Reg Date: " + regDate);
-            }
-
-            // FOR DEBUGGING
-            // System.out.println("0woo"); // FIXME
-            // System.out.println(boards.get(0).getRegDate()); // null
-
 
             request.setAttribute("boards", boards);
             request.getRequestDispatcher("/WEB-INF/views/boardSearchResult.jsp").forward(request,
