@@ -10,6 +10,7 @@ import com.study.entity.BoardSearchEntity;
 import com.study.mapper.BoardSearchMapper;
 import com.study.util.MyBatisUtil;
 import com.study.dto.BoardListDto;
+import com.study.dto.PaginationDto;
 import com.study.dto.resultset.BoardSearchResultSet;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ListCommand implements HttpCommand {
 
     private SqlSessionFactory sqlSessionFactory;
-    private static final int BOARDS_PER_PAGE = 5; // 한 페이지당 보여주는 게시물의 개수수
+    private static final int ITEMS_PER_PAGE = 5; // 한 페이지당 보여주는 게시물의 개수
+    private static final int PAGE_PER_SECTION = 10;
 
     public ListCommand() {
         this.sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
@@ -34,11 +36,6 @@ public class ListCommand implements HttpCommand {
         String keyword = request.getParameter("keyword");
         String currentPageString = request.getParameter("page");
 
-        System.out.printf("변수 테스트: %s %s %s %s %s\n", regDateStart, regDateEnd, categoryName,
-                keyword, currentPageString);
-
-        int boardsPerPage = BOARDS_PER_PAGE; // 한 페이지당 보여주는 값
-
         if (regDateStart != null && !isStringDateType(regDateStart))
             regDateStart = null;
         if (regDateEnd != null && !isStringDateType(regDateEnd))
@@ -52,23 +49,16 @@ public class ListCommand implements HttpCommand {
         int currentPage = 1; // 기본 페이지의 값
         if (isStringInteger(currentPageString)) {
             currentPage = Integer.parseInt(currentPageString);
-            offset = (currentPage - 1) * boardsPerPage;
+            offset = (currentPage - 1) * ITEMS_PER_PAGE;
         }
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
             BoardSearchMapper mapper = session.getMapper(BoardSearchMapper.class);
 
             List<BoardSearchEntity> boards = mapper.boardSearch(regDateStart, regDateEnd,
-                    categoryName, keyword, boardsPerPage, offset);
+                    categoryName, keyword, ITEMS_PER_PAGE, offset);
             int totalCount =
                     mapper.boardSearchCount(regDateStart, regDateEnd, categoryName, keyword);
-
-            int totalPage = (int) Math.ceil((double) totalCount / boardsPerPage);
-            int sectionPageBegin =
-                    ((int) Math.ceil((double) (offset / boardsPerPage) / 10) * 10) + 1;
-            int sectionPageEnd = Math.min(sectionPageBegin + 9, totalPage);
-
-
 
             List<BoardSearchResultSet> boardListResultSet = boards.stream()
                     .map(board -> new BoardSearchResultSet(board.getBoardId(), board.getCategory(),
@@ -76,15 +66,11 @@ public class ListCommand implements HttpCommand {
                             board.getViews(), board.getRegDate(), board.getUpdateDate()))
                     .toList();
 
-            int lastSectionPage = (totalPage / 10 + 1) * 10; // 프론트의 pagination에서, currentPage를
-            // lastSectionPage와 비교해서, lastSectionPage보다
-            // 많으면 ">"를 넣지 않기 위한 변수
-            System.out.printf(
-                    "totalPage: %d sectionPageBegin: %d sectionPageEnd: %d lastSectionPage: %d\n",
-                    totalPage, sectionPageBegin, sectionPageEnd, lastSectionPage);
+            PaginationDto paginationDto = PaginationDto.createPaginationDto(totalCount,
+                    ITEMS_PER_PAGE, PAGE_PER_SECTION, currentPage);
 
-            BoardListDto boardListDto = new BoardListDto(totalCount, boardListResultSet,
-                    currentPage, totalPage, sectionPageBegin, sectionPageEnd, lastSectionPage);
+            BoardListDto boardListDto =
+                    new BoardListDto(totalCount, boardListResultSet, paginationDto);
 
             request.setAttribute("boardListDto", boardListDto);
         }

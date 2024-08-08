@@ -23,11 +23,14 @@ public class BoardSearchResultSet {
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 
+
+    // for jsp
     public String getRegDateAsString() {
         return regDate != null ? regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 : "";
     }
 
+    // for jsp
     public String getUpdateDateAsString() {
         return updateDate != null
                 ? updateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

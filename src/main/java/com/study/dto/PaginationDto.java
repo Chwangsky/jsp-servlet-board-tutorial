@@ -36,59 +36,35 @@ public class PaginationDto {
     public static PaginationDto createPaginationDto(int totalItems, int itemsPerPage,
             int pagesPerSection, int currentPage) {
         PaginationDto pagination = new PaginationDto();
+
         pagination.setTotalItems(totalItems);
         pagination.setItemsPerPage(itemsPerPage);
         pagination.setPagesPerSection(pagesPerSection);
         pagination.setCurrentPage(currentPage);
 
-        int totalPage = calculateTotalPage(totalItems, itemsPerPage, pagination);
-
+        int totalPage = calculateTotalPage(totalItems, itemsPerPage);
         int currentSection = calculateCurrentSection(pagesPerSection, currentPage);
-        pagination.setCurrentSection(currentSection);
-
         int currentSectionPageBegin = calculateCurrentPageBegin(pagesPerSection, currentSection);
-        pagination.setCurrentSectionPageBegin(currentSectionPageBegin);
-
         int currentSectionPageEnd =
                 calculateCurrentPageEnd(pagesPerSection, totalPage, currentSection);
+
+        pagination.setTotalPage(totalPage);
+        pagination.setCurrentSection(currentSection);
+        pagination.setCurrentSectionPageBegin(currentSectionPageBegin);
         pagination.setCurrentSectionPageEnd(currentSectionPageEnd);
 
         return pagination;
     }
 
     /**
-     * Calculates the end page number for the current section.
+     * Calculates the total number of pages.
      *
-     * @param pagesPerSection Number of pages per section.
-     * @param totalPage Total number of pages.
-     * @param currentSection Current section number.
-     * @return The end page number for the current section.
+     * @param totalItems Total number of items.
+     * @param itemsPerPage Number of items per page.
+     * @return The total number of pages.
      */
-    private static int calculateCurrentPageEnd(int pagesPerSection, int totalPage,
-            int currentSection) {
-        return Math.min(currentSection * pagesPerSection, totalPage);
-    }
-
-    /**
-     * Calculates the start page number for the current section.
-     *
-     * @param pagesPerSection Number of pages per section.
-     * @param currentSection Current section number.
-     * @return The start page number for the current section.
-     */
-    private static int calculateCurrentPageBegin(int pagesPerSection, int currentSection) {
-        return getCurrentSectionPageBegin2(pagesPerSection, currentSection);
-    }
-
-    /**
-     * Helper method to calculate the start page number for the current section.
-     *
-     * @param pagesPerSection Number of pages per section.
-     * @param currentSection Current section number.
-     * @return The start page number for the current section.
-     */
-    private static int getCurrentSectionPageBegin2(int pagesPerSection, int currentSection) {
-        return (currentSection - 1) * pagesPerSection + 1;
+    private static int calculateTotalPage(int totalItems, int itemsPerPage) {
+        return (int) Math.ceil((double) totalItems / itemsPerPage);
     }
 
     /**
@@ -103,17 +79,26 @@ public class PaginationDto {
     }
 
     /**
-     * Calculates the total number of pages.
+     * Calculates the start page number for the current section.
      *
-     * @param totalItems Total number of items.
-     * @param itemsPerPage Number of items per page.
-     * @param pagination The PaginationDto object to set the total pages.
-     * @return The total number of pages.
+     * @param pagesPerSection Number of pages per section.
+     * @param currentSection Current section number.
+     * @return The start page number for the current section.
      */
-    private static int calculateTotalPage(int totalItems, int itemsPerPage,
-            PaginationDto pagination) {
-        int totalPage = calculateCurrentSection(itemsPerPage, totalItems);
-        pagination.setTotalPage(totalPage);
-        return totalPage;
+    private static int calculateCurrentPageBegin(int pagesPerSection, int currentSection) {
+        return (currentSection - 1) * pagesPerSection + 1;
+    }
+
+    /**
+     * Calculates the end page number for the current section.
+     *
+     * @param pagesPerSection Number of pages per section.
+     * @param totalPage Total number of pages.
+     * @param currentSection Current section number.
+     * @return The end page number for the current section.
+     */
+    private static int calculateCurrentPageEnd(int pagesPerSection, int totalPage,
+            int currentSection) {
+        return Math.min(currentSection * pagesPerSection, totalPage);
     }
 }
