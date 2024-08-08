@@ -9,8 +9,10 @@
 
 <c:if test="${not empty boardDetailWrapperDTO}">
     <h3>Board Details</h3>
-    <p>Title: ${boardDetailWrapperDTO.boardDetail.boardTitle}</p>
     <p>Category: ${boardDetailWrapperDTO.boardDetail.category}</p>
+    <p>Title: ${boardDetailWrapperDTO.boardDetail.title}</p>
+    <p>Contents: ${boardDetailWrapperDTO.boardDetail.content}</p>
+    
     <p>Reg Date: ${boardDetailWrapperDTO.boardDetail.regDate}</p>
     <p>Update Date: ${boardDetailWrapperDTO.boardDetail.updateDate}</p>
 

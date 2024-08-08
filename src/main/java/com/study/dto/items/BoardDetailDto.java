@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class BoardDetailDto {
     private int boardId;
     private String category;
-    private String boardTitle;
+    private String title;
+    private String content;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 }
