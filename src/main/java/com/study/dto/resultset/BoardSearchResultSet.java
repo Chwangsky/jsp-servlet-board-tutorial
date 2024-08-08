@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardSearchResultSet {
+    private int boardId;
     private String category;
     private int fileCount;
     private String title;

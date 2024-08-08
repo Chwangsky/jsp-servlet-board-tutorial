@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ListCommand implements HttpCommand {
 
     private SqlSessionFactory sqlSessionFactory;
+    private static final int BOARDS_PER_PAGE = 5; // 한 페이지당 보여주는 게시물의 개수수
 
     public ListCommand() {
         this.sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
@@ -36,7 +37,7 @@ public class ListCommand implements HttpCommand {
         System.out.printf("변수 테스트: %s %s %s %s %s\n", regDateStart, regDateEnd, categoryName,
                 keyword, currentPageString);
 
-        int boardsPerPage = 5; // 한 페이지당 보여주는 값
+        int boardsPerPage = BOARDS_PER_PAGE; // 한 페이지당 보여주는 값
 
         if (regDateStart != null && !isStringDateType(regDateStart))
             regDateStart = null;
@@ -67,14 +68,23 @@ public class ListCommand implements HttpCommand {
                     ((int) Math.ceil((double) (offset / boardsPerPage) / 10) * 10) + 1;
             int sectionPageEnd = Math.min(sectionPageBegin + 9, totalPage);
 
+
+
             List<BoardSearchResultSet> boardListResultSet = boards.stream()
-                    .map(board -> new BoardSearchResultSet(board.getCategory(),
+                    .map(board -> new BoardSearchResultSet(board.getBoardId(), board.getCategory(),
                             board.getFileCount(), board.getTitle(), board.getWriter(),
                             board.getViews(), board.getRegDate(), board.getUpdateDate()))
                     .toList();
 
+            int lastSectionPage = (totalPage / 10 + 1) * 10; // 프론트의 pagination에서, currentPage를
+            // lastSectionPage와 비교해서, lastSectionPage보다
+            // 많으면 ">"를 넣지 않기 위한 변수
+            System.out.printf(
+                    "totalPage: %d sectionPageBegin: %d sectionPageEnd: %d lastSectionPage: %d\n",
+                    totalPage, sectionPageBegin, sectionPageEnd, lastSectionPage);
+
             BoardListDto boardListDto = new BoardListDto(totalCount, boardListResultSet,
-                    currentPage, totalPage, sectionPageBegin, sectionPageEnd);
+                    currentPage, totalPage, sectionPageBegin, sectionPageEnd, lastSectionPage);
 
             request.setAttribute("boardListDto", boardListDto);
         }
@@ -96,6 +106,13 @@ public class ListCommand implements HttpCommand {
         return matcher.matches();
     }
 
+    /**
+     * 주어진 스트링이 Integer에 해당하는지 여부부
+     * 
+     * @param 입력 스트링
+     * @return 입력 Integer 해당 여부
+     *
+     */
     private boolean isStringInteger(String s) {
         if (s == null || s.isEmpty()) {
             return false;

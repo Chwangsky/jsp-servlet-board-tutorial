@@ -5,43 +5,25 @@
 
 <mapper namespace="com.study.mapper.BoardSearchMapper">
 
+<!-- 검색결과를 pagination 고려하여 가져오는 쿼리-->
   <select id="boardSearch" resultType="com.study.entity.BoardSearchEntity">
     SELECT
-        (SELECT COUNT(*) FROM board WHERE 1=1 
-            <if test="regDateStart != null">
-                AND reg_date <![CDATA[ >= ]]> #{regDateStart}
-            </if>
-            <if test="regDateEnd != null">
-                AND reg_date <![CDATA[ <= ]]> #{regDateEnd}
-            </if>
-            <if test="categoryName != null">
-                AND category_id = (
-                    SELECT c.category_id
-                    FROM category c
-                    WHERE c.name = #{categoryName}
-                )
-            </if>   
-            <if test="titleAndContentKeyword != null and titleAndContentKeyword != ''">
-                AND (title LIKE CONCAT('%', #{titleAndContentKeyword}, '%')
-                    OR
-                    content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
-            </if>
-        ) AS total_count,
         (
             SELECT c.name
             FROM category c
             WHERE b.category_id = c.category_id
         ) AS category,
+        b.board_id AS boardId,
         (
             SELECT COUNT(*)
             FROM files f
             WHERE f.board_id = b.board_id
-        ) AS file_count,
+        ) AS fileCount,
         b.title AS title,
         b.writer AS writer,
         b.views AS views,
-        b.reg_date AS reg_date,
-        b.update_date AS update_date
+        b.reg_date AS regDate,
+        b.update_date AS updateDate
     FROM
         board b
     WHERE
@@ -64,10 +46,36 @@
                 OR
                 b.content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
         </if>
-    GROUP BY
-        b.board_id, b.category_id, b.title, b.writer, b.views, b.reg_date, b.update_date
     LIMIT #{limit}
     OFFSET #{offset}
+  </select>
+
+<!-- 검색결과의 전체 개수를 가져오는 쿼리-->
+  <select id="boardSearchCount" resultType="int">
+    SELECT
+        COUNT(*) as totalCount
+    FROM
+        board b
+    WHERE
+        1=1
+        <if test="regDateStart != null">
+            AND b.reg_date <![CDATA[ >= ]]> #{regDateStart}
+        </if>
+        <if test="regDateEnd != null">
+            AND b.reg_date <![CDATA[ <= ]]> #{regDateEnd}
+        </if>
+        <if test="categoryName != null">
+            AND b.category_id = (
+                SELECT c.category_id
+                FROM category c
+                WHERE c.name = #{categoryName}
+            )
+        </if>   
+        <if test="titleAndContentKeyword != null and titleAndContentKeyword != ''">
+            AND (b.title LIKE CONCAT('%', #{titleAndContentKeyword}, '%')
+                OR
+                b.content LIKE CONCAT('%', #{titleAndContentKeyword}, '%'))
+        </if>
   </select>
 
 </mapper>

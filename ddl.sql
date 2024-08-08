@@ -1,4 +1,4 @@
--- Active: 1723033748156@@127.0.0.1@3308@ebrainsoft_study
+-- Active: 1722838177121@@127.0.0.1@3308@ebrainsoft_study
 
 use ebrainsoft_study;
 
@@ -241,7 +241,7 @@ FROM board b;
 
 
 
--- 페이지네이션 관찰을 위한 추가 쿼리문 -- 이거 5번 추가하자
+-- 페이지네이션 관찰을 위한 추가 쿼리문 -- 이거 100번 추가하자
 
 insert into 
   board (title, writer, views, reg_date, update_date, category_id, content, password)

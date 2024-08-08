@@ -13,6 +13,7 @@
             FROM category c
             WHERE b.category_id = c.category_id
         ) AS category,
+        b.board_id AS boardId,
         (
             SELECT COUNT(*)
             FROM files f

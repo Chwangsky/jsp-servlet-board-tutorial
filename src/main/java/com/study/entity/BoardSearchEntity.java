@@ -16,17 +16,10 @@ import lombok.ToString;
 public class BoardSearchEntity {
     private String category;
     private int fileCount;
+    private int boardId;
     private String title;
     private String writer;
     private int views;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
-
-    public String getRegDateAsString() {
-        return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-
-    public String getUpdateDateAsString() {
-        return updateDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
 }

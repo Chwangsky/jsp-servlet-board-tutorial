@@ -16,10 +16,5 @@ public class BoardListDto {
 
     private List<BoardSearchResultSet> boardList;
 
-    private int currentPage;
-    private int totalPage;
-    private int SectionPageBegin;
-    private int SectionPageEnd;
-
-
+    private PaginationDto paginationDto;
 }

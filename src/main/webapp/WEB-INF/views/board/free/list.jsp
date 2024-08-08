@@ -49,8 +49,8 @@
 </table>
 
 <div class="pagination">
-    <c:if test="${boardListDto.currentPage > 1}">
-        <a href="?page=${boardListDto.currentPage - 1}">Previous</a>
+    <c:if test="${boardListDto.currentPage > 10}">
+        <a href="?page=${boardListDto.currentPage - 10}">&lt</a>
     </c:if>
 
     <c:forEach var="i" begin="${boardListDto.sectionPageBegin}" end="${boardListDto.sectionPageEnd}">
@@ -64,9 +64,11 @@
         </c:choose>
     </c:forEach>
 
-    <c:if test="${boardListDto.currentPage < boardListDto.totalPage}">
-        <a href="?page=${boardListDto.currentPage + 1}">Next</a>
+    <c:if test="${boardListDto.currentPage} < ${boardListDto.lastSectionPage}">
+        <a href="?page=${boardListDto.sectionPageBegin + 10}">&gt</a>
     </c:if>
+    ...
+    <a href="?page=${boardListDto.totalPage}">${totalPage}</a>
 </div>
 </body>
 </html>
