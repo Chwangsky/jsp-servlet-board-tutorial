@@ -27,5 +27,6 @@
     <mappers>
         <mapper resource="com/study/mapper/BoardSearchMapper.xml"/>
         <mapper class="com.study.mapper.BoardReadMapper"/>
+        <mapper class="com.study.mapper.BoardWriteMapper"/>
     </mappers>
 </configuration>

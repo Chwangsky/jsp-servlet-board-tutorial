@@ -8,16 +8,22 @@
 <body>
 <h2>Board Search</h2>
 <form action="http://localhost:8080/boards/free/list" method="get">
-    <label for="regDateStart">Registration Date Start:</label>
+    <label for="regDateStart">등록일:</label>
     <input type="date" id="regDateStart" name="regDateStart"><br><br>
 
-    <label for="regDateEnd">Registration Date End:</label>
+    <label for="regDateEnd">최근 수정일:</label>
     <input type="date" id="regDateEnd" name="regDateEnd"><br><br>
 
-    <label for="categoryName">Category Name:</label>
-    <input type="text" id="categoryName" name="categoryName"><br><br>
+    <label for="categoryName">카테고리:</label>
+    <select id="categoryName" name="categoryName">
+        <option value="">--카테고리를 선택해 주세요--</option>
+        <c:forEach var="category" items="${categories}">
+            <option value="${category}">${category}</option>
+        </c:forEach>
+        <!-- Add more categories as needed -->
+    </select><br><br>
 
-    <label for="keyword">Keyword:</label>
+    <label for="keyword">검색어:</label>
     <input type="text" id="keyword" name="keyword"><br><br>
 
     <input type="submit" value="Search">
@@ -69,8 +75,9 @@
     <c:if test="${boardListDto.paginationDto.currentSection != boardListDto.paginationDto.totalSection}">
         <a href="?page=${boardListDto.paginationDto.currentSectionPageEnd + 1}">&gt</a>
     </c:if>
+    
     ...
-    <a href="?page=${boardListDto.paginationDto.totalPage}">${totalPage}</a>
+    <a href="?page=${boardListDto.paginationDto.totalPage}">${boardListDto.paginationDto.totalPage}</a>
 </div>
 </body>
 </html>

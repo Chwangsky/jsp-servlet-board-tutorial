@@ -68,10 +68,17 @@ public class ListCommand implements HttpCommand {
             PaginationDto paginationDto = PaginationDto.createPaginationDto(totalCount,
                     ITEMS_PER_PAGE, PAGE_PER_SECTION, currentPage);
 
+
             BoardListDto boardListDto =
                     new BoardListDto(totalCount, boardListResultSet, paginationDto);
 
+
             request.setAttribute("boardListDto", boardListDto);
+
+            // 카테고리
+            List<String> categories = mapper.getAllCategories();
+            request.setAttribute("categories", categories);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("ListCommand 처리 도중 예외가 발생했습니다.", e);

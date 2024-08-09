@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.study.dto.BoardDetailWrapperDto;
 import com.study.entity.BoardDetailEntity;
 import com.study.entity.CommentEntity;
-import com.study.entity.CommentPostEntity;
 import com.study.entity.FileEntity;
 import com.study.mapper.BoardReadMapper;
 import com.study.util.MyBatisUtil;

@@ -33,4 +33,6 @@ public interface BoardReadMapper {
                         + "VALUES (#{boardId}, #{content}, NOW())")
         void insertComment(@Param("boardId") int boardId, @Param("content") String content);
 
+
+
 }
