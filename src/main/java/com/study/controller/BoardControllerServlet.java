@@ -27,6 +27,7 @@ public class BoardControllerServlet extends HttpServlet {
     public void init() throws ServletException {
         commandMap.put("GET:list", new ListCommand());
         commandMap.put("GET:views", new ReadCommand());
+        commandMap.put("POST:views", new ReadCommand());
 
         // TODO: GET:views 추가
         // TODO: GET:write 추가
@@ -76,8 +77,13 @@ public class BoardControllerServlet extends HttpServlet {
 
     private void handleView(HttpServletRequest request, HttpServletResponse response, String view)
             throws ServletException, IOException {
+
         if (view.startsWith("redirect:")) {
-            response.sendRedirect(view.substring(9));
+
+            String redirectPath = view.substring(9);
+            // 절대 경로로 리다이렉트
+            response.sendRedirect(request.getContextPath() + redirectPath);
+            
         } else if (view.startsWith("dispatch:")) {
             request.getRequestDispatcher("/WEB-INF/views/board/free/" + view.substring(9))
                     .forward(request, response);

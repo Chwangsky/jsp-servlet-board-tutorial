@@ -1,6 +1,7 @@
 package com.study.mapper;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import com.study.entity.BoardDetailEntity;
@@ -26,5 +27,10 @@ public interface BoardReadMapper {
                         + "f.org_name AS orgName, " + "f.file_dir AS fileDir " + "FROM files f "
                         + "WHERE f.board_id = #{boardId}")
         List<FileEntity> selectFilesByBoardId(@Param("boardId") int boardId);
+
+        // 댓글 추가하는 메서드
+        @Insert("INSERT INTO comments (board_id, content, reg_date) "
+                        + "VALUES (#{boardId}, #{content}, NOW())")
+        void insertComment(@Param("boardId") int boardId, @Param("content") String content);
 
 }
