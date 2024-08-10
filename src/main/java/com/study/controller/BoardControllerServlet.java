@@ -1,23 +1,25 @@
 package com.study.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import com.study.command.HttpCommand;
+import com.study.command.ListCommand;
+import com.study.command.ReadCommand;
+import com.study.command.WriteCommand;
+import com.study.exception.PathNotFoundException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import com.study.command.DeleteCommand;
-import com.study.command.HttpCommand;
-import com.study.command.ListCommand;
-import com.study.command.ReadCommand;
-import com.study.command.UpdateCommand;
-import com.study.command.WriteCommand;
-import com.study.exception.PathNotFoundException;
-
 @WebServlet("/boards/free/*")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 100MB
+)
 public class BoardControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -28,8 +30,8 @@ public class BoardControllerServlet extends HttpServlet {
         commandMap.put("GET:list", new ListCommand());
         commandMap.put("GET:views", new ReadCommand());
         commandMap.put("POST:views", new ReadCommand());
-        commandMap.put("GET:modify", new WriteCommand());
-        commandMap.put("POST:modify", new WriteCommand());
+        commandMap.put("GET:write", new WriteCommand());
+        commandMap.put("POST:write", new WriteCommand());
 
         // TODO: GET:views 추가
         // TODO: GET:write 추가

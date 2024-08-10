@@ -33,7 +33,7 @@ public class ReadCommand implements HttpCommand {
         }
     }
 
-    // 댓글 읽기
+    // 게시글 읽기
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
@@ -53,8 +53,8 @@ public class ReadCommand implements HttpCommand {
             List<FileEntity> fileEntities = mapper.selectFilesByBoardId(boardId);
 
             BoardDetailWrapperDto boardDetailWrapperDTO = BoardDetailWrapperDto
-                    .fromEntities(boardDetailEntity, commentEntities, fileEntities);
-
+                    .fromEntities(boardDetailEntity, commentEntities, fileEntities); // TODO: 변수명
+                                                                                     // DTO -> Dto
 
             request.setAttribute("boardDetailWrapperDTO", boardDetailWrapperDTO);
 

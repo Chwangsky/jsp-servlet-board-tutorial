@@ -3,11 +3,7 @@ package com.study.command;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import com.study.dto.BoardDetailWrapperDto;
-import com.study.entity.BoardDetailEntity;
-import com.study.entity.CommentEntity;
-import com.study.entity.FileEntity;
-import com.study.mapper.BoardReadMapper;
+import com.study.mapper.BoardWriteMapper;
 import com.study.util.MyBatisUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,30 +28,16 @@ public class WriteCommand implements HttpCommand {
         }
     }
 
-    // 댓글 읽기
+    // 게시글 등록 폼 읽기
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            BoardReadMapper mapper = session.getMapper(BoardReadMapper.class);
+            BoardWriteMapper mapper = session.getMapper(BoardWriteMapper.class);
 
-            int boardId = 0;
-            try {
-                boardId = Integer.valueOf(request.getPathInfo().split("/")[2]);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("request 형식이 잘못되었습니다. getPathInfo(): " + request.getPathInfo());
-            }
+            List<String> categories = mapper.getAllCategory();
 
-            BoardDetailEntity boardDetailEntity = mapper.selectBoardDetailById(boardId);
-            List<CommentEntity> commentEntities = mapper.selectCommentsByBoardId(boardId);
-            List<FileEntity> fileEntities = mapper.selectFilesByBoardId(boardId);
-
-            BoardDetailWrapperDto boardDetailWrapperDTO = BoardDetailWrapperDto
-                    .fromEntities(boardDetailEntity, commentEntities, fileEntities);
-
-
-            request.setAttribute("boardDetailWrapperDTO", boardDetailWrapperDTO);
+            request.setAttribute("categories", categories);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,26 +45,26 @@ public class WriteCommand implements HttpCommand {
         }
 
         // 게시글 작성 로직
-        return "dispatch:read.jsp";
+        return "dispatch:write.jsp";
     }
 
     // 댓글 등록하기
     private String doPost(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        System.out.println("POST!"); // FIXME
-        String boardIdString = request.getParameter("boardId");
-        String content = request.getParameter("content");
+        // 파라미터 받아오기
+        // String boardIdString = request.getParameter("boardId");
+        // String content = request.getParameter("content");
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
 
-            int boardId = Integer.parseInt(boardIdString);
+            // int boardId = Integer.parseInt(boardIdString);
 
-            BoardReadMapper mapper = session.getMapper(BoardReadMapper.class);
-            mapper.insertComment(boardId, content);
+            // BoardReadMapper mapper = session.getMapper(BoardReadMapper.class);
+            // mapper.insertComment(boardId, content);
 
             // 커밋
-            session.commit();
+            // session.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +72,7 @@ public class WriteCommand implements HttpCommand {
         }
 
         // 다시 게시글 페이지로 리다이렉트
-        return "redirect:/boards/free/views/" + boardIdString;
+        return "redirect:/boards/free/list";
     }
 }
 

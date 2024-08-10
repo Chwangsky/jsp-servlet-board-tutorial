@@ -20,8 +20,8 @@
         <c:forEach var="category" items="${categories}">
             <option value="${category}">${category}</option>
         </c:forEach>
-        <!-- Add more categories as needed -->
-    </select><br><br>
+    </select>
+    <br><br>
 
     <label for="keyword">검색어:</label>
     <input type="text" id="keyword" name="keyword"><br><br>

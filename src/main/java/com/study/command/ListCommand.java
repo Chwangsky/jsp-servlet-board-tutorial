@@ -19,7 +19,7 @@ public class ListCommand implements HttpCommand {
 
     private SqlSessionFactory sqlSessionFactory;
     private static final int ITEMS_PER_PAGE = 5; // 한 페이지당 보여주는 게시물의 개수
-    private static final int PAGE_PER_SECTION = 10;
+    private static final int PAGE_PER_SECTION = 10; // 한 섹션에 보여줄 페이지의 개수
 
     public ListCommand() {
         this.sqlSessionFactory = MyBatisUtil.getSqlSessionFactory();
@@ -52,7 +52,7 @@ public class ListCommand implements HttpCommand {
         }
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-            BoardSearchMapper mapper = session.getMapper(BoardSearchMapper.class);
+            BoardSearchMapper mapper = session.getMapper(BoardSearchMapper.class); // dao vs mapper
 
             List<BoardSearchEntity> boards = mapper.boardSearch(regDateStart, regDateEnd,
                     categoryName, keyword, ITEMS_PER_PAGE, offset);
@@ -103,6 +103,7 @@ public class ListCommand implements HttpCommand {
         }
     }
 
+    // TODO 별도로 utils 분리로 분리
     /**
      * 주어진 스트링이 Integer에 해당하는지 여부부
      * 
