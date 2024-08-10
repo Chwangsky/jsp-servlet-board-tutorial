@@ -52,11 +52,10 @@ public class ReadCommand implements HttpCommand {
             List<CommentEntity> commentEntities = mapper.selectCommentsByBoardId(boardId);
             List<FileEntity> fileEntities = mapper.selectFilesByBoardId(boardId);
 
-            BoardDetailWrapperDto boardDetailWrapperDTO = BoardDetailWrapperDto
-                    .fromEntities(boardDetailEntity, commentEntities, fileEntities); // TODO: 변수명
-                                                                                     // DTO -> Dto
+            BoardDetailWrapperDto boardDetailWrapperDto = BoardDetailWrapperDto
+                    .fromEntities(boardDetailEntity, commentEntities, fileEntities);
 
-            request.setAttribute("boardDetailWrapperDTO", boardDetailWrapperDTO);
+            request.setAttribute("boardDetailWrapperDto", boardDetailWrapperDto);
 
         } catch (Exception e) {
             e.printStackTrace();

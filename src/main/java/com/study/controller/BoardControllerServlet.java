@@ -75,7 +75,7 @@ public class BoardControllerServlet extends HttpServlet {
         System.out.println("controllerString: " + controllerString); // FIXME
 
         String key = method + ":" + controllerString;
-        System.out.println("key : " + key);
+        System.out.println("key: " + key);
         return commandMap.get(key);
     }
 
