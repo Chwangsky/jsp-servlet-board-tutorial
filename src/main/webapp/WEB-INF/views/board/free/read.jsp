@@ -106,8 +106,16 @@
 
                 <button type="submit" class="btn btn-primary">댓글 등록</button>
             </form>
+
+            <!-- 목록, 수정 버튼 -->
+            <div class="mb-4">
+                <a href="${pageContext.request.contextPath}/boards/free/list" class="btn btn-secondary">목록</a>
+                <a href="${pageContext.request.contextPath}/boards/free/modify?boardId=${boardDetailWrapperDto.boardDetail.boardId}" class="btn btn-primary">수정</a>
+            </div>
+            
         </c:if>
     </div>
+
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

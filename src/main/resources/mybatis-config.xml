@@ -29,5 +29,6 @@
         <mapper class="com.study.mapper.BoardReadMapper"/>
         <mapper class="com.study.mapper.BoardWriteMapper"/>
         <mapper class="com.study.mapper.DownloadMapper"/>
+        <mapper class="com.study.mapper.BoardUpdateMapper"/>
     </mappers>
 </configuration>

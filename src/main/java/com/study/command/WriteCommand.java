@@ -2,7 +2,6 @@ package com.study.command;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -81,6 +80,7 @@ public class WriteCommand implements HttpCommand {
         for (Part part : parts) {
             if (part.getName().equals("files") && part.getSize() > 0) {
 
+
                 String originalFileName = part.getSubmittedFileName();
                 String uuid = UUID.randomUUID().toString();
                 String fileName = uuid + "_" + originalFileName;
@@ -113,8 +113,6 @@ public class WriteCommand implements HttpCommand {
             board.setContent(content);
             board.setCategoryId(Integer.parseInt(categoryId));
             mapper.insertBoard(board);
-
-
 
             // 첨부파일 정보 저장
             if (!fileList.isEmpty()) {

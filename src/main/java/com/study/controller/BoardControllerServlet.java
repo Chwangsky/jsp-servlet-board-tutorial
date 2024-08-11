@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.study.command.HttpCommand;
 import com.study.command.ListCommand;
+import com.study.command.ModifyCommand;
 import com.study.command.ReadCommand;
 import com.study.command.WriteCommand;
 import com.study.exception.PathNotFoundException;
@@ -32,9 +33,9 @@ public class BoardControllerServlet extends HttpServlet {
         commandMap.put("POST:views", new ReadCommand());
         commandMap.put("GET:write", new WriteCommand());
         commandMap.put("POST:write", new WriteCommand());
+        commandMap.put("GET:modify", new ModifyCommand());
+        commandMap.put("POST:modify", new ModifyCommand());
 
-        // TODO: POST:write 추가
-        // TODO: GET:modify 추가
         // TODO: POST:modify 추가
 
         // commandMap.put("GET:insert", new WriteCommand());

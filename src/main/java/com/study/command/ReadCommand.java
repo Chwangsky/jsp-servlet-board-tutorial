@@ -36,7 +36,6 @@ public class ReadCommand implements HttpCommand {
     // 게시글 읽기
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-
         try (SqlSession session = sqlSessionFactory.openSession()) {
             BoardReadMapper mapper = session.getMapper(BoardReadMapper.class);
 
