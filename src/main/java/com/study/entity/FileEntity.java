@@ -16,4 +16,5 @@ public class FileEntity {
     private String uuidName;
     private String orgName;
     private String fileDir;
+    private int boardId;
 }

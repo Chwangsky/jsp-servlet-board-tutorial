@@ -88,10 +88,10 @@ values
     '1234'
   );
 
-  insert into 
+insert into 
   board (title, writer, views, reg_date, update_date, category_id, content, password)
 values
-  (
+(
     'Javascript가 뭔가요?', 
     '오상진', 
     3213, 
@@ -100,7 +100,7 @@ values
     2, 
     '자바스크립트 테스트 내용입니다.', 
     '1234'
-  );
+);
 
   
 insert into 
