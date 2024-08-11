@@ -72,7 +72,6 @@ public class ListCommand implements HttpCommand {
             BoardListDto boardListDto =
                     new BoardListDto(totalCount, boardListResultSet, paginationDto);
 
-
             request.setAttribute("boardListDto", boardListDto);
 
             // 카테고리

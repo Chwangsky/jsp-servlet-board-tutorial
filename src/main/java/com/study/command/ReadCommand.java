@@ -48,6 +48,10 @@ public class ReadCommand implements HttpCommand {
                 System.out.println("request 형식이 잘못되었습니다. getPathInfo(): " + request.getPathInfo());
             }
 
+            // 조회수 1 증가
+            mapper.incrementViewCount(boardId);
+            session.commit(); // 조회수 증가를 위한 커밋
+
             BoardDetailEntity boardDetailEntity = mapper.selectBoardDetailById(boardId);
             List<CommentEntity> commentEntities = mapper.selectCommentsByBoardId(boardId);
             List<FileEntity> fileEntities = mapper.selectFilesByBoardId(boardId);

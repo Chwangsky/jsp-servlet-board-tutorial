@@ -28,6 +28,11 @@ public interface BoardReadMapper {
                         + "WHERE f.board_id = #{boardId}")
         List<FileEntity> selectFilesByBoardId(@Param("boardId") int boardId);
 
+
+        // 조회수를 1 증가시키는 메서드
+        @Insert("UPDATE board SET views = views + 1 WHERE board_id = #{boardId}")
+        void incrementViewCount(@Param("boardId") int boardId);
+
         // 댓글 추가하는 메서드
         @Insert("INSERT INTO comments (board_id, content, reg_date) "
                         + "VALUES (#{boardId}, #{content}, NOW())")

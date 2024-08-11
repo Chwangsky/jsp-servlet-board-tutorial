@@ -74,7 +74,11 @@
                     <c:forEach var="file" items="${boardDetailWrapperDto.files}">
                         <li class="list-group-item">
                             <strong>${file.orgName}</strong> <small class="text-muted">(${file.attachType}, ${file.byteSize} bytes)</small><br>
-                            <small>파일 경로: ${file.fileDir}/${file.uuidName}</small>
+                            <small>파일 경로: 
+                                <a href="${pageContext.request.contextPath}/download.do?id=${file.filesId}">
+                                    ${file.orgName}
+                                </a>
+                            </small>
                         </li>
                     </c:forEach>
                 </ul>

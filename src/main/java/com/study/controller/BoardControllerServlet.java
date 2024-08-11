@@ -33,8 +33,6 @@ public class BoardControllerServlet extends HttpServlet {
         commandMap.put("GET:write", new WriteCommand());
         commandMap.put("POST:write", new WriteCommand());
 
-        // TODO: GET:views 추가
-        // TODO: GET:write 추가
         // TODO: POST:write 추가
         // TODO: GET:modify 추가
         // TODO: POST:modify 추가
